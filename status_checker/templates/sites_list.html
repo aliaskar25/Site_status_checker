@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if request.user.is_anonymous %}
+        <a href="{% url 'login' %}?next=/">Login</a>
+    {% else %}
+        <span>{{ request.user.username }}</span>
+        <a href="{% url 'logout' %}?next=/">Logout</a>
+    {% endif %}
+
+
+    {% for site in sites %}
+        <ul>
+            <li><strong>Site url: </strong><a href="{% url 'site_url' site.id %}">{{ site.url }}</a></li>
+            <li><strong>Interval check: </strong>{{ site.interval_check }}</li>
+            <li><strong>Status code: </strong>{{ site.status }}</li>
+            <li><strong>Last request: </strong>{{ site.last_request|time:"h:i:s" }}</li>
+            <hr>
+        </ul>
+    {% endfor %}
+</body>
+</html>
